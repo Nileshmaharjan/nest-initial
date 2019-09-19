@@ -13,6 +13,9 @@
     "paths": {
       "@utils/*": [
         "./src/utils/*"
+      ],
+      "@config/*": [
+        "./config/*"
       ]
     },
     "esModuleInterop" : true,

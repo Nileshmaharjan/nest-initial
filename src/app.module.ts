@@ -5,10 +5,22 @@ import { BooksModule } from './modules/books/books.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeormConfig } from './config/typeorm.config';
 import { UserModule } from './modules/user/user.module';
-
+import { InventoryModule } from './modules/inventory/inventory.module';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { HttpErrorFilter } from './shared/http-error.filter';
+import { LoggingInterceptor } from './shared/logging.interceptor';
 @Module({
-  imports: [BooksModule, TypeOrmModule.forRoot(typeormConfig), UserModule],
+  imports: [BooksModule, InventoryModule, TypeOrmModule.forRoot(typeormConfig), UserModule],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+    provide: APP_FILTER,
+    useClass: HttpErrorFilter,
+    },
+    {
+    provide: APP_INTERCEPTOR,
+    useClass: LoggingInterceptor,
+    },
+  ],
 })
 export class AppModule {}

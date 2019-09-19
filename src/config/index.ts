@@ -1,5 +1,6 @@
 const config = {
     dev: {
+      secret: 'ABx98XY',
       db: {
         host: 'salt.db.elephantsql.com',
         port: 5432,
@@ -9,6 +10,7 @@ const config = {
       },
     },
     production: {
+      secret: 'ABx98XY',
       db: {
         host: 'salt.db.elephantsql.com',
         port: 5432,

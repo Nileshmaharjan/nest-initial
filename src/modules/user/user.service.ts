@@ -3,14 +3,17 @@ import { User } from '../user/user.entity';
 import { UserRepository} from '../user/user.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUser } from 'src/dto/createuser.dto';
+import { UserLogin } from 'src/dto/userlogin.dto';
 import { TypeOrmErrorFormatter } from '../../utils/helperFunction.utils';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
     constructor(
         @InjectRepository(User)
         private readonly userRepository: UserRepository,
+        private readonly jwtService: JwtService,
     ) {}
     public async createUser(createUser: CreateUser): Promise<any> {
         const user = new User();
@@ -39,18 +42,20 @@ export class UserService {
     }
 
     public async validatePassword(
-        createUser: CreateUser,
-    ): Promise<{message: string}> {
+        userLogin: UserLogin,
+    ): Promise<{message: string, accesstoken: string}> {
         const user = await this.userRepository.findOne({
-            where: { name: createUser.name },
+            where: { name: userLogin.name },
         });
 
         if (!user) {
             throw new NotFoundException('User not found');
         }
 
-        if(await user.validatePassword(createUser.password)) {
-            return { message: 'Successfully signed' };
+        if (await user.validatePassword(userLogin.password)) {
+            const payload = { name: userLogin.name };
+            const accesstoken = await this.jwtService.sign(payload);
+            return { message: 'Successfully signed', accesstoken };
         } else {
             throw new UnauthorizedException('Invalid credentials');
         }

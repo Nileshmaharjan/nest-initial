@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Book } from '../books/book.entity';
+import { Inventory } from '../inventory/inventory.entity';
 
 @Entity()
 @Unique(['id'])
@@ -26,6 +27,9 @@ export class User extends BaseEntity {
 
     @OneToMany(type => Book, book => book.user, { eager: true })
     books: Book[];
+
+    @OneToMany(type => Inventory, inventory => inventory.user, {eager: true})
+    inventory: Inventory[];
 
     public async validatePassword(password: string): Promise<boolean> {
         const hash = await bcrypt.hash(password, this.salt);

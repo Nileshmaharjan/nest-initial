@@ -9,7 +9,7 @@ import {
 import { User } from '../user/user.entity';
 
 @Entity()
-export class Book extends BaseEntity {
+export class Inventory extends BaseEntity {
     @PrimaryGeneratedColumn()
     public id: number;
 
@@ -17,9 +17,9 @@ export class Book extends BaseEntity {
     public name: string;
 
     @Column()
-    public author: string;
+    public cost: string;
 
-    @ManyToOne(type => User, user => user.books, {eager: false})
+    @ManyToOne(type => User, user => user.inventory, {eager: false})
     user: User;
 
 }

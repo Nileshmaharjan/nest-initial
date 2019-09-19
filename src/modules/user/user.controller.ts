@@ -1,6 +1,7 @@
 import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { UserService } from './user.service';
 import {CreateUser} from '../../dto/createuser.dto';
+import { UserLogin } from '../../dto/userlogin.dto';
 import { User } from '../user/user.entity';
 
 @Controller('user')
@@ -23,7 +24,7 @@ export class UserController {
     }
 
     @Post('/login')
-    public login(@Body() createUser: CreateUser): Promise<{message: string}> {
-        return this.userService.validatePassword(createUser);
+    public login(@Body() userlogin: UserLogin): Promise<{message: string}> {
+        return this.userService.validatePassword(userlogin);
     }
 }
