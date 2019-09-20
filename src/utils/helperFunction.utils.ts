@@ -12,7 +12,14 @@ const TypeOrmErrorFormatter = err => {
         }
     };
 
+const getRandom = () => {
+
+ return Math.floor(100000 + Math.random() * 900000);
+
+};
+
 export  {
     TypeOrmErrorFormatter,
+    getRandom,
 
 };

@@ -9,4 +9,7 @@ export class UserLogin {
 
     @IsNotEmpty()
     public password: string;
+
+    @IsNotEmpty()
+    public phonenumber: number;
 }

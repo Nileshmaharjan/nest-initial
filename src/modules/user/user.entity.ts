@@ -9,6 +9,7 @@ import {
 import * as bcrypt from 'bcrypt';
 import { Book } from '../books/book.entity';
 import { Inventory } from '../inventory/inventory.entity';
+import {getRandom} from '../../utils/helperFunction.utils';
 
 @Entity()
 @Unique(['id'])
@@ -25,6 +26,9 @@ export class User extends BaseEntity {
     @Column()
     public salt: string;
 
+    @Column()
+    public phonenumber: number;
+
     @OneToMany(type => Book, book => book.user, { eager: true })
     books: Book[];
 
@@ -35,4 +39,9 @@ export class User extends BaseEntity {
         const hash = await bcrypt.hash(password, this.salt);
         return this.password === hash;
     }
+
+    // public async getOtpCode(phonenumber: number): Promise<any> {
+    //     const otpcode = await getRandom();
+    //     return otpcode;
+    // }
 }

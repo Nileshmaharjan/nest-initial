@@ -27,4 +27,9 @@ export class UserController {
     public login(@Body() userlogin: UserLogin): Promise<{message: string}> {
         return this.userService.validatePassword(userlogin);
     }
+
+    @Post('/getotp')
+    public getOtp(@Body() userlogin: UserLogin): Promise<{otpcode: number}> {
+        return this.userService.getOtpCode(userlogin);
+    }
 }

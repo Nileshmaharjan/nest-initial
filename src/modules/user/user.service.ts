@@ -7,6 +7,7 @@ import { UserLogin } from 'src/dto/userlogin.dto';
 import { TypeOrmErrorFormatter } from '../../utils/helperFunction.utils';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import {getRandom} from '../../utils/helperFunction.utils';
 
 @Injectable()
 export class UserService {
@@ -21,11 +22,13 @@ export class UserService {
         user.name = createUser.name;
         user.salt = await bcrypt.genSalt();
         user.password = await bcrypt.hash(createUser.password, user.salt);
+        user.phonenumber = createUser.phonenumber;
 
         try {
             await user.save();
             return user;
         } catch (error) {
+            console.log(error);
            TypeOrmErrorFormatter(error);
 
         }
@@ -38,7 +41,7 @@ export class UserService {
         return data;
     }
 
-    public async getUserById(id: number){
+    public async getUserById(id: number) {
         const data = await this.userRepository.findOne(id);
 
         if (!data) {
@@ -65,6 +68,19 @@ export class UserService {
             return { message: 'Successfully signed', accesstoken };
         } else {
             throw new UnauthorizedException('Invalid credentials');
+        }
+    }
+
+    public async getOtpCode(
+        userLogin: UserLogin,
+    ): Promise<{otpcode: number}> {
+        const user = await this.userRepository.findOne({
+            where: { phonenumber: userLogin.phonenumber},
+        });
+
+        if (user) {
+            const otpcode = await getRandom();
+            return { otpcode };
         }
     }
 
