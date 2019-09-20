@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { CreateInventory } from 'src/dto/createinventory.dto';
 import { Inventory } from './inventory.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -24,6 +24,7 @@ export class InventoryService {
     }
 
     public async getInventory(): Promise<any> {
-        return await this.inventoryRepository.find();
+        const data = await this.inventoryRepository.find();
+        return data;
     }
 }

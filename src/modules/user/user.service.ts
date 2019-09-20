@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException, HttpException, HttpStatus } from '@nestjs/common';
 import { User } from '../user/user.entity';
 import { UserRepository} from '../user/user.repository';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -32,13 +32,20 @@ export class UserService {
     }
 
     public async getUsers(): Promise<any> {
-        return this.userRepository.find({
+        const data =  await this.userRepository.find({
             select: ['id', 'name'],
         });
+        return data;
     }
 
-    public async getUserById(id: number): Promise<any> {
-        return this.userRepository.findOne(id);
+    public async getUserById(id: number){
+        const data = await this.userRepository.findOne(id);
+
+        if (!data) {
+            console.log('here');
+            throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+        }
+        return data;
     }
 
     public async validatePassword(
