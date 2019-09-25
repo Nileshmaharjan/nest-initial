@@ -9,8 +9,9 @@ import { InventoryModule } from './modules/inventory/inventory.module';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { HttpErrorFilter } from './shared/http-error.filter';
 import { LoggingInterceptor } from './shared/logging.interceptor';
+import { NestMinioClientModule } from './modules/nest-minio-client/nest-minio-client.module';
 @Module({
-  imports: [BooksModule, InventoryModule, TypeOrmModule.forRoot(typeormConfig), UserModule],
+  imports: [BooksModule, InventoryModule, TypeOrmModule.forRoot(typeormConfig), UserModule, NestMinioClientModule],
   controllers: [],
   providers: [
     {
