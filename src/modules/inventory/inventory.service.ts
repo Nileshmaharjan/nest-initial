@@ -23,7 +23,7 @@ export class InventoryService {
         return inventory;
     }
 
-    public async getInventory(): Promise<any> {
+    public async getInventory(page: number = 1, limit: number): Promise<any> {
 
         const allInventory = await this.inventoryRepository.createQueryBuilder('inventory')
         .leftJoinAndSelect('inventory.user', 'user')
@@ -31,6 +31,8 @@ export class InventoryService {
             'inventory',
             'user.name',
         ])
+        .take(limit)
+        .skip(limit * (page - 1))
         .getMany();
         return allInventory;
     }

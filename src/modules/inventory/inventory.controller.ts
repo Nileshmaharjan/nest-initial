@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, UseGuards, UsePipes, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, UsePipes, Param, Query } from '@nestjs/common';
 import { InventoryService } from '../inventory/inventory.service';
 import { CreateInventory } from '../../dto/createinventory.dto';
 import { getUser } from '../user/getUser.decorator';
@@ -23,8 +23,8 @@ export class InventoryController {
     }
 
     @Get()
-    public getInventory(): Promise<Inventory> {
-        return this.inventoryService.getInventory();
+    public getInventory(@Query('page') page: number, @Query('limit') limit: number): Promise<Inventory> {
+        return this.inventoryService.getInventory(page, limit);
     }
 
     @Get(':id')

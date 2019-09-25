@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, UseGuards, UsePipes, Param} from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, UsePipes, Param, Query} from '@nestjs/common';
 import { CreateBook } from '../../dto/createbook.dto';
 import { BooksService } from '../books/books.service';
 import { Book } from '../books/book.entity';
@@ -23,8 +23,8 @@ export class BooksController {
     }
 
     @Get()
-    public getBooks(): Promise<Book> {
-        return this.bookService.getBook();
+    public getBooks(@Query('page') page: number, @Query('limit') limit: number ): Promise<Book> {
+        return this.bookService.getBook(page, limit);
     }
 
     @Get(':id')

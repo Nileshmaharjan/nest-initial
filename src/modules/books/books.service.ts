@@ -25,7 +25,7 @@ export class BooksService {
         return book;
     }
 
-    public async getBook(): Promise<any> {
+    public async getBook(page: number = 1, limit: number): Promise<any> {
 
         const allBooks = await this.bookRepository.createQueryBuilder('book')
         .leftJoinAndSelect('book.user', 'user')
@@ -33,6 +33,8 @@ export class BooksService {
             'book',
             'user.name',
         ])
+        .take(limit)
+        .skip(limit * (page - 1))
         .getMany();
 
         return allBooks;
