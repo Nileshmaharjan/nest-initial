@@ -5,9 +5,6 @@ console.log(MINIO_CONNECTION);
 @Controller('nest-minio-client')
 export class NestMinioClientController {
     constructor(@Inject(MINIO_CONNECTION) private readonly minioClient) {}
-
-    
-    
     @Get()
     index() {
         const file = '/Users/nileshmaharjan/Downloads/nest-initial/dist/modules/nest-minio-client/logo.png';
