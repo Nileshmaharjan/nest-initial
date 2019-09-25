@@ -24,7 +24,27 @@ export class InventoryService {
     }
 
     public async getInventory(): Promise<any> {
-        const data = await this.inventoryRepository.find();
-        return data;
+
+        const allInventory = await this.inventoryRepository.createQueryBuilder('inventory')
+        .leftJoinAndSelect('inventory.user', 'user')
+        .select([
+            'inventory',
+            'user.name',
+        ])
+        .getMany();
+        return allInventory;
+    }
+
+    public async getInventoryById(Id) {
+        const inventory = await this.inventoryRepository.createQueryBuilder('inventory')
+        .leftJoinAndSelect('inventory.user', 'user')
+        .where('inventory.id = :id', Id)
+        .select([
+            'inventory',
+            'user.name',
+        ])
+        .getOne();
+
+        return inventory;
     }
 }

@@ -1,10 +1,10 @@
-import { Controller, Post, Body, Get, UseGuards, UsePipes } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, UsePipes, Param } from '@nestjs/common';
 import { InventoryService } from '../inventory/inventory.service';
 import { CreateInventory } from '../../dto/createinventory.dto';
 import { getUser } from '../user/getUser.decorator';
 import { User } from '../user/user.entity';
 import { Inventory } from './inventory.entity';
-import { AuthGuard } from '@nestjs/passport'
+import { AuthGuard } from '@nestjs/passport';
 import { Validator } from 'class-validator';
 import { ValidationPipe } from '../../shared/validation.pipes';
 
@@ -25,5 +25,10 @@ export class InventoryController {
     @Get()
     public getInventory(): Promise<Inventory> {
         return this.inventoryService.getInventory();
+    }
+
+    @Get(':id')
+    public getInventoryById(@Param() id: number): Promise<Inventory> {
+        return this.inventoryService.getInventoryById(id);
     }
 }
