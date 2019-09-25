@@ -29,10 +29,10 @@ export class User extends BaseEntity {
     @Column()
     public phonenumber: number;
 
-    @OneToMany(type => Book, book => book.user, { eager: true })
+    @OneToMany(type => Book, book => book.user, { eager: false })
     books: Book[];
 
-    @OneToMany(type => Inventory, inventory => inventory.user, {eager: true})
+    @OneToMany(type => Inventory, inventory => inventory.user, {eager: false})
     inventory: Inventory[];
 
     public async validatePassword(password: string): Promise<boolean> {

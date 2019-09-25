@@ -4,6 +4,9 @@ import { Book } from '../books/book.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BookRepository } from './book.repository';
 import { User } from '../user/user.entity';
+import { userInfo } from 'os';
+import { Like } from 'typeorm';
+
 
 @Injectable()
 export class BooksService {
@@ -23,6 +26,29 @@ export class BooksService {
     }
 
     public async getBook(): Promise<any> {
-        return await this.bookRepository.find();
+
+        const allBooks = await this.bookRepository.createQueryBuilder('book')
+        .leftJoinAndSelect('book.user', 'user')
+        .select([
+            'book',
+            'user.name',
+        ])
+        .getMany();
+
+        return allBooks;
+    }
+
+    public async getBooksById(Id) {
+
+        const oneBook = await this.bookRepository.createQueryBuilder('book')
+        .leftJoinAndSelect('book.user', 'user')
+        .select([
+            'book',
+            'user.name',
+        ])
+        .where('book.id = :id', Id)
+        .getOne();
+
+        return oneBook;
     }
 }

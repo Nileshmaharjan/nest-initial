@@ -24,8 +24,6 @@ export class CreateUser {
     public password: string;
 
     @IsNotEmpty()
-    @MaxLength(20)
-    @MinLength(8)
     @ApiModelProperty()
     public phonenumber: number;
 }

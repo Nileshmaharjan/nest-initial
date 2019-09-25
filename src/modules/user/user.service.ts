@@ -29,16 +29,23 @@ export class UserService {
             return user;
         } catch (error) {
             console.log(error);
-           TypeOrmErrorFormatter(error);
+            TypeOrmErrorFormatter(error);
 
         }
     }
 
     public async getUsers(): Promise<any> {
-        const data =  await this.userRepository.find({
-            select: ['id', 'name'],
-        });
-        return data;
+
+        const allUsers = await this.userRepository.createQueryBuilder('user')
+        .leftJoinAndSelect('user.books', 'book')
+        .select([
+            'user',
+            'book.name',
+            'book.author',
+        ])
+        .getMany();
+
+        return allUsers;
     }
 
     public async getUserById(id: number) {
@@ -81,7 +88,7 @@ export class UserService {
         if (user) {
             const otpcode = await getRandom();
             return { otpcode };
-            
+
         }
     }
 
