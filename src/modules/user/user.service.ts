@@ -2,8 +2,8 @@ import { Injectable, NotFoundException, UnauthorizedException, HttpException, Ht
 import { User } from '../user/user.entity';
 import { UserRepository} from '../user/user.repository';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateUser } from 'src/dto/createuser.dto';
-import { UserLogin } from 'src/dto/userlogin.dto';
+import { CreateUser } from '../../dto/createuser.dto';
+// import { UserLogin } from 'src/dto/userlogin.dto';
 import { TypeOrmErrorFormatter } from '../../utils/helperFunction.utils';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -17,6 +17,8 @@ export class UserService {
         private readonly jwtService: JwtService,
     ) {}
     public async createUser(createUser: CreateUser): Promise<any> {
+        console.log(CreateUser);
+        console.log(createUser);
         const user = new User();
         user.id = createUser.id;
         user.name = createUser.name;
@@ -58,38 +60,38 @@ export class UserService {
         return data;
     }
 
-    public async validatePassword(
-        userLogin: UserLogin,
-    ): Promise<{message: string, accesstoken: string}> {
-        const user = await this.userRepository.findOne({
-            where: { name: userLogin.name },
-        });
+    // public async validatePassword(
+    //     userLogin: UserLogin,
+    // ): Promise<{message: string, accesstoken: string}> {
+    //     const user = await this.userRepository.findOne({
+    //         where: { name: userLogin.name },
+    //     });
 
-        if (!user) {
-            throw new NotFoundException('User not found');
-        }
+    //     if (!user) {
+    //         throw new NotFoundException('User not found');
+    //     }
 
-        if (await user.validatePassword(userLogin.password)) {
-            const payload = { name: userLogin.name };
-            const accesstoken = await this.jwtService.sign(payload);
-            return { message: 'Successfully signed', accesstoken };
-        } else {
-            throw new UnauthorizedException('Invalid credentials');
-        }
-    }
+    //     if (await user.validatePassword(userLogin.password)) {
+    //         const payload = { name: userLogin.name };
+    //         const accesstoken = await this.jwtService.sign(payload);
+    //         return { message: 'Successfully signed', accesstoken };
+    //     } else {
+    //         throw new UnauthorizedException('Invalid credentials');
+    //     }
+    // }
 
-    public async getOtpCode(
-        userLogin: UserLogin,
-    ): Promise<{otpcode: number}> {
-        const user = await this.userRepository.findOne({
-            where: { phonenumber: userLogin.phonenumber},
-        });
+    // public async getOtpCode(
+    //     userLogin: UserLogin,
+    // ): Promise<{otpcode: number}> {
+    //     const user = await this.userRepository.findOne({
+    //         where: { phonenumber: userLogin.phonenumber},
+    //     });
 
-        if (user) {
-            const otpcode = await getRandom();
-            return { otpcode };
+    //     if (user) {
+    //         const otpcode = await getRandom();
+    //         return { otpcode };
 
-        }
-    }
+    //     }
+    // }
 
 }

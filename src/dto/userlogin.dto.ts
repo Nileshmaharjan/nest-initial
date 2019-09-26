@@ -1,18 +1,48 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 import {
-    IsNotEmpty, IsString, IsNumber,
+    IsNotEmpty, IsString, IsNumber, IsDate, IsBoolean,
 } from 'class-validator';
 
 export class UserLogin {
-    @IsString()
-    @IsNotEmpty()
-    public name: string;
 
-    @IsString()
+    @ApiModelProperty()
     @IsNotEmpty()
-    public password: string;
+    public MembershipId?: number;
 
+    @ApiModelProperty()
+    @IsNotEmpty()
+    public FullName: string;
+
+    @ApiModelProperty()
+    @IsNotEmpty()
     @IsNumber()
+    public PhoneNumber: number;
+
+    @ApiModelProperty()
     @IsNotEmpty()
-    public phonenumber: number;
+    public Otp: number;
+
+    @ApiModelProperty()
+    @IsNotEmpty()
+    public CreatedAt: Date;
+
+    @ApiModelProperty()
+    @IsNotEmpty()
+    public OtpSentAt: Date;
+
+    @ApiModelProperty()
+    public OtpUsedAt: Date;
+
+    @ApiModelProperty()
+    @IsNotEmpty()
+    public OtpUsed: boolean;
+
+    @ApiModelProperty()
+    @IsNotEmpty()
+    public UserStatus: boolean;
+
+    @ApiModelProperty()
+    @IsNotEmpty()
+    public OtpStatus: boolean;
+
 }
