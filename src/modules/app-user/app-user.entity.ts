@@ -12,10 +12,11 @@ export class AppUser extends BaseEntity {
     @Column()
     public FullName: string;
 
-    @Column()
+    @Column({unique: true})
+    @Unique('Duplicate Phonenumber', ['PhoneNumber'])
     public PhoneNumber: number;
 
-    @Column({default: getRandom()})
+    @Column()
     public Otp: number;
 
     @Column({default: new Date()})

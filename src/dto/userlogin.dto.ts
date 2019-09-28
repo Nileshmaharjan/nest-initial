@@ -7,7 +7,7 @@ export class UserLogin {
 
     @ApiModelProperty()
     @IsNotEmpty()
-    public MembershipId?: number;
+    public MembershipId: number;
 
     @ApiModelProperty()
     @IsNotEmpty()

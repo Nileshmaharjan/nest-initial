@@ -7,9 +7,14 @@ import { UserLogin } from '../../dto/userlogin.dto';
 export class AppUserController {
     constructor(private readonly appUserService: AppUserService) {}
 
-    @Post()
+    @Post('/getotp')
     public getOtp(@Body() userlogin: UserLogin): Promise<AppUser> {
         console.log(userlogin);
         return this.appUserService.getOtp(userlogin);
+    }
+
+    @Post('/validateotp')
+    public validateOtp(@Body() userlogin: UserLogin): Promise<AppUser> {
+        return this.appUserService.validateOtp(userlogin);
     }
 }
