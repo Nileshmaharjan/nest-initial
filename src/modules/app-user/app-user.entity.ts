@@ -9,11 +9,10 @@ export class AppUser extends BaseEntity {
     @PrimaryGeneratedColumn()
     public MembershipId: number;
 
-    @Column()
+    @Column({unique: true})
     public FullName: string;
 
-    @Column({unique: true})
-    @Unique('Duplicate Phonenumber', ['PhoneNumber'])
+    @Column()
     public PhoneNumber: number;
 
     @Column()

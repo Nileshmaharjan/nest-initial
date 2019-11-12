@@ -40,9 +40,10 @@ export class AppUserService {
                     Otp: await getRandom(),
                 });
                 await this.appUserRespository.save(user);
-                throw new HttpException('The message was succeeded', HttpStatus.OK);
+                // throw new HttpException('The message was succeeded', HttpStatus.OK);
             }
         } catch (e) {
+            console.log(e);
             throw new HttpException('Error', HttpStatus.BAD_REQUEST);
         }
 
